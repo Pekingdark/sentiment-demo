@@ -36,4 +36,19 @@ def predict():
 
 if __name__ == "__main__":
     app.run(debug=True)
-    
+    from flask import Flask, request, jsonify
+from flask_cors import CORS   # <-- add this
+
+app = Flask(__name__)
+CORS(app)  # <-- enable CORS for all routes
+
+@app.route('/')
+def home():
+    return "Sentiment Analysis API is running!"
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.get_json()
+    text = data.get("text", "")
+    sentiment = "positive" if "love" in text.lower() or "happy" in text.lower() else "negative"
+    return jsonify({"text": text, "sentiment": sentiment})

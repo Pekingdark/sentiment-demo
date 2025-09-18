@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sentiment Analysis Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    input, button { padding: 10px; font-size: 16px; }
+    #result { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Sentiment Analysis Demo</h1>
+  <p>Type a sentence below and click "Analyze":</p>
+  <input type="text" id="userInput" size="50" placeholder="Enter your text here" />
+  <button onclick="analyzeSentiment()">Analyze</button>
+  <div id="result"></div>
+
+  <script>
+    async function analyzeSentiment() {
+      const text = document.getElementById("userInput").value;
+      const response = await fetch("https://sentiment-demo-2ndh.onrender.com/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: text })
+      });
+      const data = await response.json();
+      document.getElementById("result").innerText = 
+        `Text: "${data.text}" → Sentiment: ${data.sentiment}`;
+    }
+  </script>
+</body>
+</html>
